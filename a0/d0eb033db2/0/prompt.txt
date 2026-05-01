@@ -1,0 +1,6 @@
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/docs/superpowers/specs/2026-05-01-discord-music-bot-design.md in the IDE. This may or may not be related to the current task.</ide_opened_file>
+continue
+
+---
+
+1
