@@ -4,6 +4,8 @@ const {
   createAudioResource,
   AudioPlayerStatus,
   StreamType,
+  NoSubscriberBehavior,
+  VoiceConnectionStatus,
 } = require('@discordjs/voice');
 const { spawn } = require('child_process');
 
@@ -15,6 +17,11 @@ let currentTextChannel = null;
 const IDLE_TIMEOUT = parseInt(process.env.IDLE_TIMEOUT_MS || '300000', 10);
 
 function joinChannel(voiceChannel) {
+  // Fix 1: Remove listeners from old audioPlayer before replacing it
+  if (audioPlayer) {
+    audioPlayer.removeAllListeners();
+    audioPlayer.stop(true);
+  }
   if (connection) connection.destroy();
 
   connection = joinVoiceChannel({
@@ -23,21 +30,42 @@ function joinChannel(voiceChannel) {
     adapterCreator: voiceChannel.guild.voiceAdapterCreator,
   });
 
-  audioPlayer = createAudioPlayer();
+  // Fix 5: Set NoSubscriberBehavior.Stop on audioPlayer creation
+  audioPlayer = createAudioPlayer({
+    behaviors: { noSubscriber: NoSubscriberBehavior.Stop },
+  });
   audioPlayer.on(AudioPlayerStatus.Idle, _onIdle);
+  // Fix 2: Error handler only logs/notifies; does NOT call _onIdle (Idle state fires naturally)
   audioPlayer.on('error', err => {
     console.error('Audio player error:', err.message);
-    _onIdle();
+    currentTextChannel?.send(`⚠️ Playback error: ${err.message}`);
   });
   connection.subscribe(audioPlayer);
 }
 
 function playTrack(url, textChannel) {
+  // Fix 3: Guard against null audioPlayer
+  if (!audioPlayer) {
+    console.error('playTrack called before joinChannel');
+    return;
+  }
+
   currentTextChannel = textChannel;
   _clearIdleTimer();
 
+  // Fix 7: Capture yt-dlp stderr for user feedback
   const ytdlp = spawn('yt-dlp', ['-f', 'bestaudio', '--no-playlist', '-o', '-', url], {
-    stdio: ['ignore', 'pipe', 'ignore'],
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+  let stderrOutput = '';
+  ytdlp.stderr.on('data', chunk => { stderrOutput += chunk.toString(); });
+
+  ytdlp.on('close', code => {
+    if (code !== 0) {
+      console.error('yt-dlp exited with code', code, stderrOutput.slice(0, 200));
+      currentTextChannel?.send('⚠️ Could not play that track (unavailable or restricted).');
+    }
   });
 
   ytdlp.on('error', err => {
@@ -78,19 +106,29 @@ function stopCurrent() {
   if (audioPlayer) audioPlayer.stop();
 }
 
+// Fix 4: Remove listeners before nulling audioPlayer in disconnect
 function disconnect() {
   _clearIdleTimer();
   require('./queue').clear();
   currentTextChannel = null;
+  if (audioPlayer) {
+    audioPlayer.removeAllListeners();
+    audioPlayer.stop(true);
+    audioPlayer = null;
+  }
   if (connection) {
     connection.destroy();
     connection = null;
   }
-  audioPlayer = null;
 }
 
+// Fix 6: Check VoiceConnectionStatus.Ready in isConnected
 function isConnected() {
-  return connection !== null && audioPlayer !== null;
+  return (
+    connection !== null &&
+    connection.state.status === VoiceConnectionStatus.Ready &&
+    audioPlayer !== null
+  );
 }
 
 module.exports = { joinChannel, playTrack, stopCurrent, disconnect, isConnected };
