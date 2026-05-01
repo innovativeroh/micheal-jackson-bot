@@ -129,14 +129,13 @@ async function _autoPlay() {
     const next = results.find(r => !recentlyPlayed.has(r.webpage_url));
 
     if (!next) {
-      // All results recently played — clear history and pick first
       recentlyPlayed.clear();
-      if (results[0]) playTrack(results[0], currentTextChannel);
+      if (results[0]) playTrack({ title: results[0].title, url: results[0].webpage_url }, currentTextChannel);
       else _startIdleTimer();
       return;
     }
 
-    playTrack(next, currentTextChannel);
+    playTrack({ title: next.title, url: next.webpage_url }, currentTextChannel);
   } catch (err) {
     console.error('Auto-play failed:', err.message);
     _startIdleTimer();
