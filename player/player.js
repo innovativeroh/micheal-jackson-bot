@@ -13,6 +13,7 @@ let connection = null;
 let audioPlayer = null;
 let idleTimer = null;
 let currentTextChannel = null;
+let intentionalStop = false;
 
 const IDLE_TIMEOUT = parseInt(process.env.IDLE_TIMEOUT_MS || '300000', 10);
 
@@ -50,6 +51,7 @@ function playTrack(url, textChannel) {
     return;
   }
 
+  intentionalStop = false;
   currentTextChannel = textChannel;
   _clearIdleTimer();
 
@@ -64,7 +66,7 @@ function playTrack(url, textChannel) {
   });
 
   ytdlp.on('close', code => {
-    if (code !== 0) {
+    if (code !== 0 && !intentionalStop) {
       console.error('yt-dlp exited with code', code, stderrOutput.slice(0, 200));
       currentTextChannel?.send('⚠️ Could not play that track (unavailable or restricted).');
     }
@@ -106,7 +108,10 @@ function _clearIdleTimer() {
 }
 
 function stopCurrent() {
-  if (audioPlayer) audioPlayer.stop();
+  if (audioPlayer) {
+    intentionalStop = true;
+    audioPlayer.stop();
+  }
 }
 
 // Fix 4: Remove listeners before nulling audioPlayer in disconnect
@@ -115,6 +120,7 @@ function disconnect() {
   require('./queue').clear();
   currentTextChannel = null;
   if (audioPlayer) {
+    intentionalStop = true;
     audioPlayer.removeAllListeners();
     audioPlayer.stop(true);
     audioPlayer = null;
