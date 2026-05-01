@@ -48,3 +48,26 @@ When clicking on next nothing happend all the options diappeared and song is als
 ---
 
 See if theres nothing in the queue then as per my artist automatically play another song thats all we will be done with the bot
+
+---
+
+(Use `node --trace-deprecation ...` to show where the warning was created)
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+⏹️ Stopped. 
+⚠️ Could not play that track (unavailable or restricted).
+▶️ Now Playing
+Michael Jackson - Chicago (Official Audio)
