@@ -1,0 +1,10 @@
+0|mj-bot  | (node:18144) DeprecationWarning: The ready event has been renamed to clientReady to distinguish it f │
+│ rom the gateway READY event and will only emit under that name in v15. Please use clientReady instead.           │
+│ 0|mj-bot  | (Use `node --trace-deprecation ...` to show where the warning was created)                           │
+│ 0|mj-bot  | yt-dlp exited with code 1 [youtube] Extracting URL: https://www.youtube.com/watch?v=Kr4EQDVETuA      │
+│ 0|mj-bot  | [youtube] Kr4EQDVETuA: Downloading webpage                                                           │
+│ 0|mj-bot  | [youtube] Kr4EQDVETuA: Downloading ios player API JSON                                               │
+│ 0|mj-bot  | WARNING: [youtube] YouTube said:                                                                     │
+│ 0|mj-bot  | playTrack called before joinChannel    
+
+issue pr issue madarchood
