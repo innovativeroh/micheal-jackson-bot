@@ -1,4 +1,42 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(yt-dlp --version)",
+      "Bash(ffmpeg -version)",
+      "Bash(brew install *)",
+      "Bash(git init *)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot log --oneline -1)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot log --oneline)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot show --name-only HEAD)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot show --name-only a1d2d7e)",
+      "Bash(npm list *)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot add package.json package-lock.json)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot commit -m \"chore: fix package.json versions to match installed\")",
+      "Bash(npm test *)",
+      "Bash(npx jest *)",
+      "Bash(cat)",
+      "Bash(node /tmp/export_check.js)",
+      "Bash(grep -E \"\\\\.js$\")",
+      "Bash(node -e ' *)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot show f4e77a9 --stat)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot show 335bf28:player/search.js)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot log -1 f4e77a9 --format=\"%B\")",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot show f4e77a9..142972d --stat)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot show 142972d -- player/player.js)",
+      "Bash(node -e \"const v = require\\('@discordjs/voice'\\); console.log\\(Object.keys\\(v\\)\\)\")",
+      "Bash(node -e \"const {AudioPlayerStatus, NoSubscriberBehavior} = require\\('@discordjs/voice'\\); console.log\\(AudioPlayerStatus\\); console.log\\(NoSubscriberBehavior\\);\")",
+      "Bash(node -e \"const {createAudioPlayer, AudioPlayerStatus} = require\\('@discordjs/voice'\\); const p = createAudioPlayer\\(\\); console.log\\('default behavior:', p._state\\);\")",
+      "Bash(node -e \"const v = require\\('@discordjs/voice'\\); const src = require\\('fs'\\).readFileSync\\('./node_modules/@discordjs/voice/dist/index.js', 'utf8'\\); const m = src.match\\(/NoSubscriberBehavior\\\\s*\\\\|\\\\|\\\\s*['\\\\\"]\\(\\\\w+\\)['\\\\\"]/\\); console.log\\(m\\);\")",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot add player/player.js)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot commit -m \"fix: harden player.js - remove orphaned listeners, guard null audioPlayer, capture yt-dlp errors\")",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot diff 142972d 17611fe -- player/player.js)",
+      "Bash(git -C /Users/rohanpuri/Desktop/Projects/Discord-Bot commit -m \"fix: restore ytdlp spawn error recovery, cap stderr buffer, fix cleanup order\")"
+    ],
+    "deny": [
+      "Read(./.entire/metadata/**)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -74,11 +112,6 @@
           }
         ]
       }
-    ]
-  },
-  "permissions": {
-    "deny": [
-      "Read(./.entire/metadata/**)"
     ]
   }
 }
