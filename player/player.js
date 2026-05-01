@@ -115,6 +115,7 @@ function _sendNowPlaying(title, textChannel) {
 }
 
 function _onIdle() {
+  if (!audioPlayer) return;
   const queue = require('./queue');
   if (!queue.isEmpty()) {
     playTrack(queue.dequeue(), currentTextChannel);
