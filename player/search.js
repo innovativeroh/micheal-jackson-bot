@@ -10,7 +10,12 @@ async function _ytdlpSearch(query) {
   try {
     ({ stdout } = await execFileAsync(
       'yt-dlp',
-      [query, '--flat-playlist', '--dump-json', '--cookies-from-browser', 'safari'],
+      [
+        query, '--flat-playlist', '--dump-json',
+        ...(process.env.YTDLP_COOKIES_FILE
+          ? ['--cookies', process.env.YTDLP_COOKIES_FILE]
+          : ['--cookies-from-browser', 'safari']),
+      ],
       { timeout: 15000, maxBuffer: 5 * 1024 * 1024 }
     ));
   } catch (err) {
