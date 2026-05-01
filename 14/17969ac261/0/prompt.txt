@@ -1,0 +1,73 @@
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/docs/superpowers/specs/2026-05-01-discord-music-bot-design.md in the IDE. This may or may not be related to the current task.</ide_opened_file>
+continue
+
+---
+
+1
+
+---
+
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/player/player.js in the IDE. This may or may not be related to the current task.</ide_opened_file>
+continue
+
+---
+
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/.env in the IDE. This may or may not be related to the current task.</ide_opened_file>
+▶️ Now playing: Michael Jackson - They Don't Care About Us
+it keeps on playing the same song no next option
+⏭️ Skipped.
+⚠️ Could not play that track (unavailable or restricted).
+otherwise it shows this why
+
+---
+
+Always us /caveman
+
+---
+
+▶️ Now playing: Michael Jackson - They Don't Care About Us
+⏭️ Skipped.
+why the fuck theres no next option and india should be there lets do one thing
+
+So play a song also give top 5 choices with a current song and also give next and previous option thats it
+
+---
+
+!next
+!prev is not working
+once the song is selected it remains that song permanently
+
+---
+
+When clicking on next nothing happend all the options diappeared and song is also paused like its frozen also all the actions are quiet slow like complete bot response is slow very bad experience
+
+---
+
+When clicking on next nothing happend all the options diappeared and song is also paused like its frozen also all the actions are quiet slow like complete bot response is slow very bad experience also instead of Official Music Video i wanna use Official Music Audio or Lyrics so that it will focus on playing the songs lemme know which is better spotify or youtube or any other would also work too
+
+---
+
+See if theres nothing in the queue then as per my artist automatically play another song thats all we will be done with the bot
+
+---
+
+(Use `node --trace-deprecation ...` to show where the warning was created)
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+yt-dlp exited with code 1 [generic] Extracting URL: undefined
+ERROR: [generic] 'undefined' is not a valid URL
+
+⏹️ Stopped. 
+⚠️ Could not play that track (unavailable or restricted).
+▶️ Now Playing
+Michael Jackson - Chicago (Official Audio)
