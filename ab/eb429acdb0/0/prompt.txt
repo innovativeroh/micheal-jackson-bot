@@ -30,3 +30,9 @@ Always us /caveman
 why the fuck theres no next option and india should be there lets do one thing
 
 So play a song also give top 5 choices with a current song and also give next and previous option thats it
+
+---
+
+!next
+!prev is not working
+once the song is selected it remains that song permanently
