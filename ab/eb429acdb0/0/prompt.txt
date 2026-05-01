@@ -1,0 +1,32 @@
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/docs/superpowers/specs/2026-05-01-discord-music-bot-design.md in the IDE. This may or may not be related to the current task.</ide_opened_file>
+continue
+
+---
+
+1
+
+---
+
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/player/player.js in the IDE. This may or may not be related to the current task.</ide_opened_file>
+continue
+
+---
+
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/.env in the IDE. This may or may not be related to the current task.</ide_opened_file>
+▶️ Now playing: Michael Jackson - They Don't Care About Us
+it keeps on playing the same song no next option
+⏭️ Skipped.
+⚠️ Could not play that track (unavailable or restricted).
+otherwise it shows this why
+
+---
+
+Always us /caveman
+
+---
+
+▶️ Now playing: Michael Jackson - They Don't Care About Us
+⏭️ Skipped.
+why the fuck theres no next option and india should be there lets do one thing
+
+So play a song also give top 5 choices with a current song and also give next and previous option thats it
