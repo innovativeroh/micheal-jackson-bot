@@ -4,13 +4,15 @@ const { filterResults } = require('../utils/filter');
 
 const execFileAsync = promisify(execFile);
 
+// --flat-playlist skips full metadata fetch — much faster for search
 async function _ytdlpSearch(query) {
   let stdout;
   try {
-    ({ stdout } = await execFileAsync('yt-dlp', [query, '--dump-json'], {
-      timeout: 30000,
-      maxBuffer: 10 * 1024 * 1024,
-    }));
+    ({ stdout } = await execFileAsync(
+      'yt-dlp',
+      [query, '--flat-playlist', '--dump-json'],
+      { timeout: 15000, maxBuffer: 5 * 1024 * 1024 }
+    ));
   } catch (err) {
     console.error('yt-dlp search failed:', err.message);
     return [];
@@ -19,18 +21,27 @@ async function _ytdlpSearch(query) {
     .trim()
     .split('\n')
     .filter(Boolean)
-    .map(line => { try { return JSON.parse(line); } catch { return null; } })
+    .map(line => {
+      try {
+        const r = JSON.parse(line);
+        // flat-playlist gives id + title; construct webpage_url from id
+        return {
+          title: r.title,
+          webpage_url: r.webpage_url || `https://www.youtube.com/watch?v=${r.id}`,
+        };
+      } catch { return null; }
+    })
     .filter(Boolean);
 }
 
 async function search(artist) {
-  const results = await _ytdlpSearch(`ytsearch5:${artist} official song`);
+  const results = await _ytdlpSearch(`ytsearch5:${artist} official audio`);
   const filtered = filterResults(results);
   return filtered.length > 0 ? filtered[0] : null;
 }
 
-async function searchMultiple(artist, count = 10) {
-  const results = await _ytdlpSearch(`ytsearch${count}:${artist} official song`);
+async function searchMultiple(artist, count = 8) {
+  const results = await _ytdlpSearch(`ytsearch${count}:${artist} official audio`);
   return filterResults(results);
 }
 
