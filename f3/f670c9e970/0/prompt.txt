@@ -1,0 +1,24 @@
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/.env in the IDE. This may or may not be related to the current task.</ide_opened_file>
+│ 0|mj-bot  | yt-dlp exited with code 1 [youtube] Extracting URL: https://www.youtube.com/watch?v=ElN_4vUvTPs      │
+│ 0|mj-bot  | [youtube] ElN_4vUvTPs: Downloading webpage                                                           │
+│ 0|mj-bot  | [youtube] ElN_4vUvTPs: Downloading ios player API JSON                                               │
+│ 0|mj-bot  | WARNING: [youtube] YouTube said:                                                                     │
+│ 0|mj-bot  | yt-dlp exited with code 1 [youtube] Extracting URL: https://www.youtube.com/watch?v=Y_8mUx4VOmo      │
+│ 0|mj-bot  | [youtube] Y_8mUx4VOmo: Downloading webpage                                                           │
+│ 0|mj-bot  | [youtube] Y_8mUx4VOmo: Downloading ios player API JSON                                               │
+│ 0|mj-bot  | WARNING: [youtube] YouTube said:   
+
+facing this issue where it was working properly before 
+
+Mai Ka Laal Jaikishan
+APP
+ — 19:56
+Access denied. Only Moonwalk-approved music allowed 🚫
+▶️ Now Playing
+Beat It
+⚠️ Could not play that track (unavailable or restricted).
+▶️ Now Playing
+Bad (2012 Remaster)
+⚠️ Could not play that track (unavailable or restricted).
+▶️ Now Playing
+Remember the Time
