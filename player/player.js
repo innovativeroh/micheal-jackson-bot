@@ -67,7 +67,7 @@ function playTrack(item, textChannel) {
   currentTextChannel = textChannel;
   _clearIdleTimer();
 
-  const ytdlp = spawn('yt-dlp', ['-f', 'bestaudio', '--no-playlist', '-o', '-', item.url], {
+  const ytdlp = spawn('yt-dlp', ['-f', 'bestaudio', '--no-playlist', '--cookies-from-browser', 'safari', '-o', '-', item.url], {
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
