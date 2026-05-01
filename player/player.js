@@ -130,6 +130,7 @@ async function _autoPlay() {
   try {
     const { searchMultiple } = require('./search');
     const results = await searchMultiple(currentArtist, 8);
+    if (!audioPlayer) return; // disconnected while search was running
     const next = results.find(r => !recentlyPlayed.has(r.webpage_url));
 
     if (!next) {
