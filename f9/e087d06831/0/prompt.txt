@@ -36,3 +36,11 @@ So play a song also give top 5 choices with a current song and also give next an
 !next
 !prev is not working
 once the song is selected it remains that song permanently
+
+---
+
+When clicking on next nothing happend all the options diappeared and song is also paused like its frozen also all the actions are quiet slow like complete bot response is slow very bad experience
+
+---
+
+When clicking on next nothing happend all the options diappeared and song is also paused like its frozen also all the actions are quiet slow like complete bot response is slow very bad experience also instead of Official Music Video i wanna use Official Music Audio or Lyrics so that it will focus on playing the songs lemme know which is better spotify or youtube or any other would also work too
