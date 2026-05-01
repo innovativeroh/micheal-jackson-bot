@@ -7,6 +7,7 @@ const {
   NoSubscriberBehavior,
   VoiceConnectionStatus,
 } = require('@discordjs/voice');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const { spawn } = require('child_process');
 
 let connection = null;
@@ -18,7 +19,6 @@ let intentionalStop = false;
 const IDLE_TIMEOUT = parseInt(process.env.IDLE_TIMEOUT_MS || '300000', 10);
 
 function joinChannel(voiceChannel) {
-  // Fix 1: Remove listeners from old audioPlayer before replacing it
   if (connection) connection.destroy();
   if (audioPlayer) {
     audioPlayer.removeAllListeners();
@@ -31,12 +31,10 @@ function joinChannel(voiceChannel) {
     adapterCreator: voiceChannel.guild.voiceAdapterCreator,
   });
 
-  // Fix 5: Set NoSubscriberBehavior.Stop on audioPlayer creation
   audioPlayer = createAudioPlayer({
     behaviors: { noSubscriber: NoSubscriberBehavior.Stop },
   });
   audioPlayer.on(AudioPlayerStatus.Idle, _onIdle);
-  // Fix 2: Error handler only logs/notifies; does NOT call _onIdle (Idle state fires naturally)
   audioPlayer.on('error', err => {
     console.error('Audio player error:', err.message);
     currentTextChannel?.send(`⚠️ Playback error: ${err.message}`);
@@ -44,19 +42,20 @@ function joinChannel(voiceChannel) {
   connection.subscribe(audioPlayer);
 }
 
-function playTrack(url, textChannel) {
-  // Fix 3: Guard against null audioPlayer
+// item = { title, url, requestedBy?, textChannel? }
+function playTrack(item, textChannel) {
   if (!audioPlayer) {
     console.error('playTrack called before joinChannel');
     return;
   }
 
+  require('./history').push(item);
+
   intentionalStop = false;
   currentTextChannel = textChannel;
   _clearIdleTimer();
 
-  // Fix 7: Capture yt-dlp stderr for user feedback
-  const ytdlp = spawn('yt-dlp', ['-f', 'bestaudio', '--no-playlist', '-o', '-', url], {
+  const ytdlp = spawn('yt-dlp', ['-f', 'bestaudio', '--no-playlist', '-o', '-', item.url], {
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
@@ -80,14 +79,31 @@ function playTrack(url, textChannel) {
 
   const resource = createAudioResource(ytdlp.stdout, { inputType: StreamType.Arbitrary });
   audioPlayer.play(resource);
+
+  _sendNowPlaying(item.title, textChannel);
+}
+
+function _sendNowPlaying(title, textChannel) {
+  if (!textChannel) return;
+  const embed = new EmbedBuilder()
+    .setTitle('▶️ Now Playing')
+    .setDescription(`**${title}**`)
+    .setColor(0x1db954);
+
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder().setCustomId('ctrl|prev').setLabel('⏮️ Prev').setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('ctrl|next').setLabel('⏭️ Next').setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('ctrl|stop').setLabel('⏹️ Stop').setStyle(ButtonStyle.Danger)
+  );
+
+  textChannel.send({ embeds: [embed], components: [row] }).catch(() => {});
 }
 
 function _onIdle() {
   const queue = require('./queue');
   if (!queue.isEmpty()) {
     const next = queue.dequeue();
-    currentTextChannel?.send(`▶️ Now playing: **${next.title}**`);
-    playTrack(next.url, currentTextChannel);
+    playTrack(next, currentTextChannel);
   } else {
     _startIdleTimer();
   }
@@ -114,7 +130,6 @@ function stopCurrent() {
   }
 }
 
-// Fix 4: Remove listeners before nulling audioPlayer in disconnect
 function disconnect() {
   _clearIdleTimer();
   require('./queue').clear();
@@ -131,7 +146,6 @@ function disconnect() {
   }
 }
 
-// Fix 6: Check VoiceConnectionStatus.Ready in isConnected
 function isConnected() {
   return (
     connection !== null &&

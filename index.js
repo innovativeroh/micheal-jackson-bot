@@ -35,7 +35,43 @@ client.once('ready', () => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isButton()) return;
 
-  const [action, sessionId, extra] = interaction.customId.split('|');
+  const parts = interaction.customId.split('|');
+  const action = parts[0];
+
+  // Playback control buttons (no session needed)
+  if (action === 'ctrl') {
+    const { stopCurrent, disconnect, isConnected } = require('./player/player');
+    const dir = parts[1];
+
+    if (dir === 'next') {
+      if (!isConnected()) return interaction.reply({ content: 'Nothing is playing.', ephemeral: true });
+      stopCurrent();
+      return interaction.update({ components: [] }).catch(() => {});
+    }
+
+    if (dir === 'stop') {
+      disconnect();
+      return interaction.update({ embeds: [], components: [], content: '⏹️ Stopped.' }).catch(() => {});
+    }
+
+    if (dir === 'prev') {
+      const { popForPrev } = require('./player/history');
+      const { prepend, isEmpty } = require('./player/queue');
+      const { joinChannel } = require('./player/player');
+      const prev = popForPrev();
+      if (!prev) return interaction.reply({ content: '⏮️ No previous track.', ephemeral: true });
+      const voiceChannel = interaction.member?.voice?.channel;
+      if (!isConnected() && voiceChannel) joinChannel(voiceChannel);
+      prepend(prev);
+      stopCurrent();
+      return interaction.update({ components: [] }).catch(() => {});
+    }
+    return;
+  }
+
+  // Picker session buttons
+  const sessionId = parts[1];
+  const extra = parts[2];
   const sessions = require('./player/sessions');
   const session = sessions.get(sessionId);
 
@@ -68,20 +104,19 @@ client.on('interactionCreate', async (interaction) => {
     const { joinChannel, playTrack, isConnected } = require('./player/player');
 
     const wasEmpty = isEmpty();
-    enqueue({
+    const item = {
       title: result.title,
       url: result.webpage_url,
       requestedBy: interaction.user.username,
       textChannel: interaction.channel,
-    });
+    };
+    enqueue(item);
 
     await interaction.update({ embeds: [], components: [], content: `✅ Selected: **${result.title}**` });
 
     if (wasEmpty) {
       if (!isConnected()) joinChannel(voiceChannel);
-      const item = dequeue();
-      playTrack(item.url, interaction.channel);
-      interaction.channel.send(`▶️ Now playing: **${result.title}**`);
+      playTrack(dequeue(), interaction.channel);
     } else {
       interaction.channel.send(`➕ Added to queue: **${result.title}**`);
     }
@@ -100,8 +135,21 @@ client.on('messageCreate', async (message) => {
         await require('./commands/play')(message, args);
         break;
       case 'skip':
+      case 'next':
         await require('./commands/skip')(message);
         break;
+      case 'prev': {
+        const { popForPrev } = require('./player/history');
+        const { prepend } = require('./player/queue');
+        const { stopCurrent, isConnected } = require('./player/player');
+        const prev = popForPrev();
+        if (!prev) return message.reply('⏮️ No previous track.');
+        if (!isConnected()) return message.reply('Nothing is playing.');
+        prepend(prev);
+        stopCurrent();
+        message.reply('⏮️ Going back...');
+        break;
+      }
       case 'stop':
         await require('./commands/stop')(message);
         break;

@@ -20,4 +20,8 @@ function isEmpty() {
   return _queue.length === 0;
 }
 
-module.exports = { enqueue, dequeue, clear, getAll, isEmpty };
+function prepend(item) {
+  _queue.unshift(item);
+}
+
+module.exports = { enqueue, dequeue, prepend, clear, getAll, isEmpty };
