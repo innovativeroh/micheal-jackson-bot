@@ -44,9 +44,26 @@ function buildEmbed(session, pageResults, start) {
     .setColor(0x1db954);
 }
 
+const MJ_DENIED = [
+  "This isn't a democracy. It's a Michael Jackson dictatorship 🕺",
+  "Wrong artist. The King only plays the King 👑",
+  "Access denied. Only Moonwalk-approved music allowed 🚫",
+  "You tried… but this is a MJ-only zone 🎤",
+];
+
+function isMJ(name) {
+  const n = name.toLowerCase().replace(/[^a-z\s]/g, '').trim();
+  return n === 'mj' || n === 'michael jackson' || n === 'michael';
+}
+
 module.exports = async function play(message, args) {
   const artist = args.join(' ').trim();
   if (!artist) return message.reply('Usage: `!play <artist name>`');
+
+  if (!isMJ(artist)) {
+    const msg = MJ_DENIED[Math.floor(Math.random() * MJ_DENIED.length)];
+    return message.reply(msg);
+  }
 
   const voiceChannel = message.member?.voice?.channel;
   if (!voiceChannel) return message.reply('⚠️ Please join a voice channel first');
