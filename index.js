@@ -45,8 +45,6 @@ client.on('interactionCreate', async (interaction) => {
 
     if (dir === 'next') {
       if (!isConnected()) return interaction.reply({ content: 'Nothing is playing.', ephemeral: true });
-      const { isEmpty } = require('./player/queue');
-      if (isEmpty()) return interaction.reply({ content: '⏭️ Queue is empty. Use `!play` to add another song.', ephemeral: true });
       stopCurrent();
       return interaction.update({ components: [] }).catch(() => {});
     }
@@ -103,7 +101,9 @@ client.on('interactionCreate', async (interaction) => {
     }
 
     const { enqueue, isEmpty, dequeue } = require('./player/queue');
-    const { joinChannel, playTrack, isConnected } = require('./player/player');
+    const { joinChannel, playTrack, isConnected, setArtist } = require('./player/player');
+
+    setArtist(session.artist);
 
     const wasEmpty = isEmpty();
     const item = {

@@ -15,8 +15,14 @@ let audioPlayer = null;
 let idleTimer = null;
 let currentTextChannel = null;
 let intentionalStop = false;
+let currentArtist = null;
+const recentlyPlayed = new Set();
 
 const IDLE_TIMEOUT = parseInt(process.env.IDLE_TIMEOUT_MS || '300000', 10);
+
+function setArtist(artist) {
+  currentArtist = artist;
+}
 
 function joinChannel(voiceChannel) {
   if (connection) connection.destroy();
@@ -50,6 +56,12 @@ function playTrack(item, textChannel) {
   }
 
   require('./history').push(item);
+
+  // Track recently played to avoid repeats in auto-play
+  recentlyPlayed.add(item.url);
+  if (recentlyPlayed.size > 20) {
+    recentlyPlayed.delete(recentlyPlayed.values().next().value);
+  }
 
   intentionalStop = false;
   currentTextChannel = textChannel;
@@ -102,9 +114,31 @@ function _sendNowPlaying(title, textChannel) {
 function _onIdle() {
   const queue = require('./queue');
   if (!queue.isEmpty()) {
-    const next = queue.dequeue();
-    playTrack(next, currentTextChannel);
+    playTrack(queue.dequeue(), currentTextChannel);
+  } else if (currentArtist) {
+    _autoPlay();
   } else {
+    _startIdleTimer();
+  }
+}
+
+async function _autoPlay() {
+  try {
+    const { searchMultiple } = require('./search');
+    const results = await searchMultiple(currentArtist, 8);
+    const next = results.find(r => !recentlyPlayed.has(r.webpage_url));
+
+    if (!next) {
+      // All results recently played — clear history and pick first
+      recentlyPlayed.clear();
+      if (results[0]) playTrack(results[0], currentTextChannel);
+      else _startIdleTimer();
+      return;
+    }
+
+    playTrack(next, currentTextChannel);
+  } catch (err) {
+    console.error('Auto-play failed:', err.message);
     _startIdleTimer();
   }
 }
@@ -132,6 +166,8 @@ function stopCurrent() {
 
 function disconnect() {
   _clearIdleTimer();
+  currentArtist = null;
+  recentlyPlayed.clear();
   require('./queue').clear();
   currentTextChannel = null;
   if (audioPlayer) {
@@ -154,4 +190,4 @@ function isConnected() {
   );
 }
 
-module.exports = { joinChannel, playTrack, stopCurrent, disconnect, isConnected };
+module.exports = { joinChannel, playTrack, stopCurrent, disconnect, isConnected, setArtist };
