@@ -18,11 +18,11 @@ const IDLE_TIMEOUT = parseInt(process.env.IDLE_TIMEOUT_MS || '300000', 10);
 
 function joinChannel(voiceChannel) {
   // Fix 1: Remove listeners from old audioPlayer before replacing it
+  if (connection) connection.destroy();
   if (audioPlayer) {
     audioPlayer.removeAllListeners();
     audioPlayer.stop(true);
   }
-  if (connection) connection.destroy();
 
   connection = joinVoiceChannel({
     channelId: voiceChannel.id,
@@ -59,7 +59,9 @@ function playTrack(url, textChannel) {
   });
 
   let stderrOutput = '';
-  ytdlp.stderr.on('data', chunk => { stderrOutput += chunk.toString(); });
+  ytdlp.stderr.on('data', chunk => {
+    if (stderrOutput.length < 500) stderrOutput += chunk.toString();
+  });
 
   ytdlp.on('close', code => {
     if (code !== 0) {
@@ -69,7 +71,8 @@ function playTrack(url, textChannel) {
   });
 
   ytdlp.on('error', err => {
-    console.error('yt-dlp stream error:', err.message);
+    console.error('yt-dlp spawn error:', err.message);
+    currentTextChannel?.send('⚠️ Could not start playback (yt-dlp unavailable).');
     _onIdle();
   });
 
