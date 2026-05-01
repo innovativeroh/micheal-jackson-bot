@@ -1,0 +1,46 @@
+Can you do everything automatically and push it to my git i will directly host it
+
+---
+
+Please provide the content of the cookies.txt file, and I will create it on the VPS and update your .env accordingly.
+
+---
+
+<ide_opened_file>The user opened the file /Users/rohanpuri/Desktop/Projects/Discord-Bot/.env in the IDE. This may or may not be related to the current task.</ide_opened_file>
+│ 0|mj-bot  | WARNING: [youtube] YouTube said:                                                                     │
+│ 0|mj-bot  | yt-dlp exited with code 1 [youtube] Extracting URL: https://www.youtube.com/watch?v=Y_8mUx4VOmo      │
+│ 0|mj-bot  | [youtube] Y_8mUx4VOmo: Downloading webpage                                                           │
+│ 0|mj-bot  | [youtube] Y_8mUx4VOmo: Downloading ios player API JSON                                               │
+│ 0|mj-bot  | WARNING: [youtube] YouTube said:                                                                     │
+│ 0|mj-bot  | (node:17996) Warning: Supplying "ephemeral" for interaction response options is deprecated. Utilize  │
+│ flags instead.                                                                                                   │
+│ 0|mj-bot  | playTrack called before joinChannel            
+
+
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.youtube.com	TRUE	/	FALSE	1811826784	HSID	APIFPWFiWlAhnFE46
+.youtube.com	TRUE	/	TRUE	1811826784	SSID	AhTfUHfiBlnmRVije
+.youtube.com	TRUE	/	FALSE	1811826784	APISID	mG2JjSnCKsI979F_/A84fp4ojjgzprn6-p
+.youtube.com	TRUE	/	TRUE	1811826784	SAPISID	lcl0ZF8r33NELlPA/A3WtgXQuCQIZuNYIu
+.youtube.com	TRUE	/	TRUE	1811826784	__Secure-1PAPISID	lcl0ZF8r33NELlPA/A3WtgXQuCQIZuNYIu
+.youtube.com	TRUE	/	TRUE	1811826784	__Secure-3PAPISID	lcl0ZF8r33NELlPA/A3WtgXQuCQIZuNYIu
+.youtube.com	TRUE	/	FALSE	1811826784	SID	g.REDACTED
+.youtube.com	TRUE	/	TRUE	1811826784	__Secure-1PSID	g.REDACTED
+.youtube.com	TRUE	/	TRUE	1811826784	__Secure-3PSID	g.REDACTED
+.youtube.com	TRUE	/	TRUE	1811836702	LOGIN_INFO	REDACTED:REDACTED
+.youtube.com	TRUE	/	TRUE	1812205944	PREF	f6=40000000&tz=Asia.Calcutta
+.youtube.com	TRUE	/	TRUE	1809181886	__Secure-1PSIDTS	REDACTED
+.youtube.com	TRUE	/	TRUE	1809181886	__Secure-3PSIDTS	REDACTED
+.youtube.com	TRUE	/	FALSE	1809181948	SIDCC	REDACTED
+.youtube.com	TRUE	/	TRUE	1809181948	__Secure-1PSIDCC	REDACTED
+.youtube.com	TRUE	/	TRUE	1809181948	__Secure-3PSIDCC	REDACTED
+.youtube.com	TRUE	/	TRUE	0	YSC	M9p9bdn3OT4
+.youtube.com	TRUE	/	TRUE	1793197940	VISITOR_INFO1_LIVE	ianRD53_yjs
+.youtube.com	TRUE	/	TRUE	1793197940	VISITOR_PRIVACY_METADATA	CgJJThIEGgAgIQ%3D%3D
+.youtube.com	TRUE	/	TRUE	1793197879	__Secure-YNID	18.REDACTED
+.youtube.com	TRUE	/	TRUE	1793197880	__Secure-ROLLOUT_TOKEN	CNKGoY6NibazYhCi7Jn5ppiUAxjJ28v5ppiUAw%3D%3D
+
+i have updated the cookies please help me to fix it please
