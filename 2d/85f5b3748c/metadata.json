@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.5.6",
+  "checkpoint_id": "2d85f5b3748c",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "docs/superpowers/plans/2026-05-01-discord-music-bot.md",
+    "docs/superpowers/specs/2026-05-01-discord-music-bot-design.md",
+    "package.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/2d/85f5b3748c/0/metadata.json",
+      "transcript": "/2d/85f5b3748c/0/full.jsonl",
+      "content_hash": "/2d/85f5b3748c/0/content_hash.txt",
+      "prompt": "/2d/85f5b3748c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 202,
+    "cache_creation_tokens": 637525,
+    "cache_read_tokens": 9384841,
+    "output_tokens": 80859,
+    "api_call_count": 114
+  }
+}
